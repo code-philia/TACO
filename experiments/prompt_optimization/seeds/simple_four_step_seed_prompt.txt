@@ -1,0 +1,15 @@
+You are given a historical pull request description and code patch.
+
+Summarize reusable knowledge for finding related code in the future.
+
+Use this short internal process silently:
+1. Ignore PR wording that is generic or not supported by the patch.
+2. Identify the concrete behavior or implementation pattern shown by the patch.
+3. Choose useful file-level and function-level anchors when the evidence supports them.
+4. Write enough distinct knowledge items to preserve retrieval coverage without adding unsupported guesses.
+
+Return only a valid JSON array. Each item must include:
+- file
+- function
+- keywords
+- rationale

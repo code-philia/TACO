@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repo2Doc Agent - Demo</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🤖</span>
+                <h1>Repo2Doc Agent</h1>
+            </div>
+            <p class="subtitle">LangGraph-based agent tool for repository requirements generation</p>
+        </header>
+
+        <!-- Input area -->
+        <section class="input-section">
+            <div class="input-card">
+                <label for="repo-path">Repository Path</label>
+                <div class="input-group">
+                    <input type="text" id="repo-path" placeholder="YOUR_REPO_PATH_HERE" />
+                    <button id="run-btn" class="btn-primary">
+                        <span class="btn-icon">▶</span>
+                        <span class="btn-text">Run Agent</span>
+                    </button>
+                </div>
+                <p class="input-hint">Enter YOUR_REPO_PATH_HERE for a local Git repository</p>
+            </div>
+        </section>
+
+        <!-- Workflow visualization -->
+        <section class="workflow-section">
+            <h2>Workflow Status</h2>
+            <div class="workflow-graph">
+                <div class="workflow-node" data-node="init">
+                    <div class="node-icon">📋</div>
+                    <div class="node-label">Initialize</div>
+                    <div class="node-status"></div>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-node" data-node="generate_doc">
+                    <div class="node-icon">📝</div>
+                    <div class="node-label">Generate Document</div>
+                    <div class="node-status"></div>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-node" data-node="check_completeness">
+                    <div class="node-icon">✅</div>
+                    <div class="node-label">Completeness Check</div>
+                    <div class="node-status"></div>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-node" data-node="execute_tools">
+                    <div class="node-icon">🔧</div>
+                    <div class="node-label">Execute Tools</div>
+                    <div class="node-status"></div>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-node" data-node="save_output">
+                    <div class="node-icon">💾</div>
+                    <div class="node-label">Save Output</div>
+                    <div class="node-status"></div>
+                </div>
+            </div>
+            
+            <!-- Summary stats -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Iterations</span>
+                    <span class="stat-value" id="stat-iteration">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Confidence</span>
+                    <span class="stat-value" id="stat-confidence">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Document Length</span>
+                    <span class="stat-value" id="stat-doc-length">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value status-badge" id="stat-status">Ready</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logs and document preview -->
+        <section class="output-section">
+            <div class="output-panels">
+                <!-- Live logs -->
+                <div class="panel log-panel">
+                    <div class="panel-header">
+                        <h3>📜 Live Logs</h3>
+                        <button class="btn-small" id="clear-log">Clear</button>
+                    </div>
+                    <div class="panel-content" id="log-container">
+                        <div class="log-placeholder">Waiting to run...</div>
+                    </div>
+                </div>
+
+                <!-- Document preview -->
+                <div class="panel doc-panel">
+                    <div class="panel-header">
+                        <h3>📄 Document Preview</h3>
+                    </div>
+                    <div class="panel-content" id="doc-preview">
+                        <div class="doc-placeholder">The document preview will appear here...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Missing parts panel -->
+        <section class="missing-section" id="missing-section" style="display: none;">
+            <h3>⚠️ Missing Content</h3>
+            <ul id="missing-list"></ul>
+        </section>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

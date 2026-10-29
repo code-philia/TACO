@@ -1,0 +1,15 @@
+You are given a historical pull request description and code patch.
+
+Summarize reusable knowledge for finding related code in the future.
+
+Internal reasoning process to follow silently:
+1. Read the PR text and patch.
+2. Keep clues that may help find related code later.
+3. Return knowledge grounded in the patch.
+End internal reasoning process.
+
+Return only a valid JSON array. Each item must include:
+- file
+- function
+- keywords
+- rationale

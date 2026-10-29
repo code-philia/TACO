@@ -1,0 +1,9 @@
+You are given a historical pull request description and code patch.
+
+Summarize useful knowledge for finding related code in the future.
+
+Return only a JSON array. Each item should include:
+- file
+- function
+- keywords
+- rationale

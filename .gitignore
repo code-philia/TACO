@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+config.local.toml
+YOUR_LOG_DIR_HERE/
+logs/
+data/
+sandbox/
+*.egg-info/
+.vector_cache/
+dist/
+build/
+experiments/prompt_optimization/data_splits/
+experiments/prompt_optimization/results/
+experiments/prompt_optimization/logs/
+experiments/prompt_optimization/.secrets/

@@ -1,0 +1,54 @@
+{
+  "experiment_name": "historical_pr_prompt_optimization",
+  "repo_split_policy": {
+    "optimization_pool_repos": 10,
+    "held_out_transfer_repos": 2,
+    "train_dev_share_repo_pool": true
+  },
+  "data_policy": {
+    "use_swebench_for_training": false,
+    "use_swebench_for_dev_selection": false,
+    "use_swebench_for_prompt_rewrite": false,
+    "swebench_usage": "external_evaluation_after_prompt_freeze_only"
+  },
+  "reward_weights": {
+    "retrieval_score": 1.0,
+    "ranking_score": 0.5,
+    "granularity_score": 0.3,
+    "noise_penalty": 0.3,
+    "parse_failure_penalty": 1.0
+  },
+  "hit_scores": {
+    "function": 1.0,
+    "module": 0.7,
+    "file": 0.4,
+    "miss": 0.0
+  },
+  "default_paths": {
+    "train_data_dir": "YOUR_TRAIN_DATA_DIR_HERE",
+    "base_repos": "YOUR_REPO_CHECKOUTS_DIR_HERE",
+    "output_dir_name": "repo2docAgent-output-gpt-5-4-mini",
+    "kb_name": "knowledge_graph_two_index_epoch_1.json",
+    "elements_name": "program_elements.jsonl"
+  },
+  "default_repos": [
+    "astropy",
+    "django",
+    "matplotlib",
+    "seaborn",
+    "flask",
+    "requests",
+    "xarray",
+    "pylint",
+    "pytest",
+    "scikit-learn",
+    "sphinx",
+    "sympy"
+  ],
+  "seed_prompts": {
+    "minimal": "experiments/prompt_optimization/seeds/minimal_prompt.txt",
+    "simplified_distillation": "experiments/prompt_optimization/seeds/simplified_distillation_prompt.txt",
+    "current_six_step": "experiments/prompt_optimization/seeds/current_six_step_prompt.txt"
+  },
+  "recommended_initial_seed": "simplified_distillation"
+}

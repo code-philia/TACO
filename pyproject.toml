@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rek-cli"
+version = "0.1.0"
+description = "CLI refactor for Repo Evolution Knowledge"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "typer>=0.12,<1.0",
+  "tqdm>=4.66,<5.0",
+  "pyyaml>=6.0,<7.0",
+  "pydantic>=2.10,<3.0",
+  "python-dotenv>=1.0,<2.0",
+  "rich>=13.9,<14.0",
+  "pathspec>=0.12,<1.0",
+  "requests>=2.32,<3.0",
+  "unidiff>=0.7,<1.0",
+  "langchain-core>=0.3,<0.4",
+  "langchain-openai>=0.2,<0.4",
+  "langgraph>=0.2,<0.4",
+  "langchain-anthropic>=0.2,<0.4",
+  "flask>=3.0,<4.0",
+]
+
+[project.scripts]
+rek = "rek.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

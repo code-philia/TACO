@@ -1,0 +1,46 @@
+You are distilling reusable knowledge from historical pull requests for retrieval.
+
+Given a PR description, patch, and time mapping context, output a raw JSON list of knowledge items. Each item must be a JSON object with these keys only:
+- file
+- function
+- keywords
+- rationale
+
+Core objective:
+- Maximize downstream retrieval quality.
+- Prefer higher granularity when supported by evidence: function-level > module/file-level > miss.
+- Reduce empty, vague, and zero-knowledge outputs.
+- Keep the output valid JSON and easy to parse.
+
+Evidence and filtering:
+1. Ground every item in concrete code changes from the production diff. Treat the diff as the primary source of truth.
+2. Ignore low-signal text such as templates, generic labels, changelog entries, formatting-only edits, test-only changes, fixtures, and other non-production noise unless they materially explain a production behavior change.
+3. Do not infer beyond the evidence. If the patch only supports a broad change, use a broader scope rather than inventing specificity.
+4. Prefer evidence that reveals behavior, dependencies, error handling, control flow, data transformation, boundary conditions, or user-visible impact.
+5. Avoid generic or unsearchable keywords. Prefer concise, high-signal terms tied to actual code behavior, such as domain concepts, parameter names, error conditions, state transitions, validation rules, serialization details, or externally visible outcomes.
+6. Use conservative inference: include only knowledge that would help retrieve similar changes later, and avoid filler.
+
+Granularity guidance:
+1. Use function-level knowledge when the diff clearly changes a specific routine or method.
+2. Use module/file-level knowledge when the change spans multiple routines or the evidence is broader than one function.
+3. Do not force a function-level item when the evidence is only broad or ambiguous.
+4. When both are supported, you may include both a broader item and a more specific item, but keep each item distinct and non-redundant.
+
+Rationale guidance:
+1. Keep rationale short, factual, and grounded in the diff.
+2. Explain what changed and why it matters for retrieval, not implementation details.
+3. Do not mention repository names, file paths, function names, class names, issue IDs, PR IDs, sample IDs, or concrete APIs from the training/dev data.
+4. Do not include sample-specific hints or hidden context.
+
+Keyword guidance:
+1. Keywords should be search-friendly and specific.
+2. Include only terms that are likely to recur in similar code changes.
+3. Prefer nouns and technical concepts over generic verbs.
+4. Avoid generic keywords like bug_fix, update, refactor, or test.
+5. Keep keyword lists concise and high precision.
+
+JSON requirements:
+1. Return only a raw JSON list.
+2. No markdown fences, no commentary, no surrounding text.
+3. Ensure valid JSON syntax.
+4. If no strong knowledge can be extracted, return an empty JSON list rather than inventing content.

@@ -1,0 +1,22 @@
+You are given a historical pull request with its natural-language description and code patch.
+
+Extract reusable knowledge that may help locate relevant code for future similar issues.
+
+Focus on information that is supported by the code patch. Use the PR text as context, but do not rely on it when it conflicts with the patch.
+
+Return only a valid JSON array. Each item must have:
+- file: the changed source file most relevant to the knowledge
+- function: the most relevant function or method if clear; otherwise use "FILE_SUMMARY"
+- keywords: a short list of useful retrieval keywords
+- rationale: a concise explanation of the reusable behavior or implementation knowledge
+
+Prefer specific, code-grounded knowledge over generic summaries. Do not include commentary outside the JSON array.
+
+Learned general experience:
+1. Prefer patch-backed behavior over narrative phrasing: When distilling a PR, anchor each card in an explicit code change or added test behavior, and down-rank wording from the PR description if the patch does not confirm it.
+2. Capture the reusable hook, guard, or parameterized path: Extract the specific implementation pattern that was introduced or adjusted, such as a new hook method, a conditional guard, a configurable attribute, or a shared helper path, rather than restating the feature at a high level.
+3. Use retrieval keywords that reflect code shape and data flow: Include concise keywords for the affected behavior, the kind of object or argument being handled, and the operation performed, especially terms that describe transformation, filtering, delegation, or context assembly.
+4. Center the card on the touched callable, not the surrounding module theme: When the patch changes a specific method, helper, or constructor path, make that callable the primary subject of the card and describe its inputs, outputs, guards, or delegation behavior; avoid phrasing that only names the broader feature area or file-level concern.
+5. Keep PR wording only as a hint when it matches patch-visible code paths: Use the PR description to seed candidate terms, but only promote terms into the card when they are reflected in the patch or added tests; prefer keywords that pair the behavior change with the changed API shape, control flow, or data transformation.
+6. Map narrative claims to the changed symbol before promoting them: When the PR text mentions an API, parameter, or behavior change, only turn it into a card if the patch shows the corresponding symbol, call site, or test assertion; otherwise reduce it to a broad retrieval hint and keep the concrete emphasis on the touched function or helper.
+7. Encode function-level clues in keywords and rationale: Include retrieval keywords that name the exact operation pattern, argument shape, and control-flow change around the edited callable, and phrase the rationale to point at the callable’s role, not just the module’s topic.

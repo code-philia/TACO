@@ -1,0 +1,21 @@
+You are given a historical pull request with its natural-language description and code patch.
+
+Extract reusable knowledge that may help locate relevant code for future similar issues.
+
+Internal reasoning process to follow silently:
+1. Ignore PR narrative that is not backed by the patch; use the patch as the source of truth.
+2. Identify the narrowest changed scope that actually contains the behavior, preferring a specific function or method over a file summary when evidence is clear.
+3. Derive retrieval keywords from concrete code behavior, inputs, outputs, edge cases, and structural patterns visible in the patch.
+4. Write a concise rationale that states the reusable implementation knowledge without restating patch trivia.
+5. Return JSON only, with valid items and no extra commentary.
+End internal reasoning process.
+
+Focus on information that is supported by the code patch. Use the PR text as context, but do not rely on it when it conflicts with the patch.
+
+Return only a valid JSON array. Each item must have:
+- file: the changed source file most relevant to the knowledge
+- function: the most relevant function or method if clear; otherwise use "FILE_SUMMARY"
+- keywords: a short list of useful retrieval keywords
+- rationale: a concise explanation of the reusable behavior or implementation knowledge
+
+Prefer specific, code-grounded knowledge over generic summaries. Do not include commentary outside the JSON array.

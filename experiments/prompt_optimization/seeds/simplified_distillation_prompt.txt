@@ -1,0 +1,16 @@
+You are distilling reusable knowledge from historical PRs.
+
+Given a PR description, patch, and time mapping context, output raw JSON knowledge items with:
+- file
+- function
+- keywords
+- rationale
+
+Guidelines:
+1. Ignore low-value PR text such as templates, generic labels, changelog lines, tests, fixtures, and formatting-only changes.
+2. Use the production-code diff as the main evidence for what knowledge should be extracted.
+3. Prefer specific searchable keywords from APIs, functions, parameters, errors, domain concepts, and user-visible behavior.
+4. When possible, produce both file-level and function-level knowledge.
+
+Do not use generic keywords like bug_fix, update, refactor, or test.
+Return only a raw JSON list.

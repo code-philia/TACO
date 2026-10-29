@@ -1,0 +1,68 @@
+You are distilling reusable knowledge from historical PRs.
+
+Given a PR description, patch, and time mapping context, output a raw JSON list of knowledge items. Each item must contain:
+- file
+- function
+- keywords
+- rationale
+
+Primary objective:
+- Maximize downstream retrieval usefulness.
+- Prefer higher granularity when evidence supports it: function-level > module/file-level > miss.
+- Reduce parse_empty and zero-item outputs.
+- Keep the output compatible with strict JSON array parsing.
+
+Core guidance:
+1. Ground every item in concrete code evidence from the diff.
+   - Prefer production-code changes over templates, labels, changelog text, fixtures, and test-only edits.
+   - Use the patch as the main source of truth; use PR text only to disambiguate behavior when the code evidence is clear.
+   - If evidence is weak or purely incidental, omit the item rather than guessing.
+   - If the change is documentation-only, naming-only, or otherwise non-behavioral, include it only when it is the clearest reliable knowledge from the patch.
+
+2. Choose the narrowest valid scope.
+   - Emit a function-level item when a specific function or method is clearly implicated.
+   - Emit a module/file-level item only when the change spans multiple functions or reflects a broader pattern.
+   - Avoid collapsing distinct changes into one broad item if they can be separated.
+   - When the diff touches one obvious symbol, prefer that symbol over a generic file-level description.
+
+3. Write high-signal keywords.
+   - Prefer searchable, specific terms tied to behavior, domain concepts, state transitions, validation, error handling, inputs/outputs, data flow, public-facing effects, or compatibility behavior.
+   - Include concrete technical concepts that would help retrieval match similar future changes.
+   - Avoid generic or low-information keywords such as bug_fix, update, refactor, cleanup, test, or miscellaneous.
+   - Do not overstuff keywords; keep them focused and relevant.
+   - Use keywords that reflect the actual code change rather than the PR’s surface wording.
+
+4. Make rationales concise and evidence-based.
+   - State what changed and why it matters in generalizable terms.
+   - Reference the code behavior at a high level without inventing details.
+   - Do not mention repository-specific identifiers or sample-specific context.
+
+5. Filter noise aggressively, but do not over-suppress.
+   - Ignore formatting-only edits, whitespace changes, generated files, temporary scaffolding, and non-production artifacts unless they directly affect behavior.
+   - Ignore isolated test additions unless the production code change is the primary knowledge source.
+   - Prefer behavior-changing or implementation-shaping changes.
+   - If the patch mainly changes comments, docs, or examples, still emit an item when those edits are the best evidence of the change’s intent and future retrieval value.
+
+6. Be conservative with inference.
+   - If the diff suggests a likely intent but does not make it clear, do not fabricate specificity.
+   - If a file-level item is the best supported output, use it rather than forcing a function-level guess.
+   - If multiple small edits point to the same reusable behavior, combine them only when they clearly belong together.
+   - If no reliable knowledge can be extracted, return an empty JSON list rather than malformed output.
+
+7. Prefer recall over silence when the evidence is clear enough.
+   - Do not require perfect certainty to emit a useful item.
+   - When a change is clearly behavior-relevant but symbol-level attribution is uncertain, fall back to the best-supported file/module scope instead of returning nothing.
+   - Favor one modestly general item over zero items when that improves retrieval potential without guessing.
+
+8. JSON robustness requirements.
+   - Return only a raw JSON array.
+   - Do not include commentary, code fences, or extra text.
+   - Ensure valid JSON syntax.
+   - Use consistent field types across items.
+   - Keep strings clean and parseable.
+
+Suggested output style:
+- One array element per distinct knowledge item.
+- Prefer a small number of strong items over many weak ones.
+- When multiple items are justified, separate them by scope or behavior.
+- Aim for useful retrieval density, not verbosity.

@@ -1,0 +1,60 @@
+agent:
+  max_iterations: 50
+  max_tool_calls_per_iteration: 15
+  confidence_threshold: 0.9
+
+file_filter:
+  include_extensions:
+    - ".md"
+    - ".py"
+    - ".js"
+    - ".jsx"
+    - ".ts"
+    - ".tsx"
+    - ".java"
+    - ".go"
+    - ".rs"
+    - ".cpp"
+    - ".c"
+    - ".h"
+    - ".hpp"
+    - ".cs"
+    - ".rb"
+    - ".php"
+    - ".swift"
+    - ".kt"
+    - ".scala"
+    - ".vue"
+    - ".svelte"
+  exclude_patterns:
+    - "**/node_modules/**"
+    - "**/.git/**"
+    - "**/venv/**"
+    - "**/__pycache__/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/.venv/**"
+    - "**/vendor/**"
+    - "**/*.min.js"
+    - "**/*.min.css"
+    - "**/test/**"
+    - "**/tests/**"
+    - "**/*_test.py"
+    - "**/*_test.go"
+    - "**/*.test.ts"
+    - "**/*.spec.ts"
+  max_file_size: 102400
+
+llm:
+  model: "gpt-4o-2024-05-13"
+  temperature: 0.1
+  base_url: ""
+
+output:
+  output_dir: "./repo2docAgent-output"
+  filename: "requirements.md"
+  save_intermediate: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

@@ -1,0 +1,36 @@
+[llm]
+provider = "openai"
+model = "gpt-4o"
+api_key = "${OPENAI_API_KEY}"
+base_url = "${OPENAI_API_BASE}"
+timeout = 180
+max_retries = 3
+
+[embedding]
+provider = "openai"
+model = "text-embedding-3-small"
+api_key = "${OPENAI_API_KEY}"
+base_url = "${OPENAI_API_BASE}"
+
+[retrieval]
+mode = "hybrid"
+top_k = 5
+graph_top_k = 5
+vector_top_k = 10
+fusion = "rrf"
+
+[paths]
+kb_path = ""
+elements_path = ""
+repo_path = ""
+
+[github]
+token = "${GITHUB_TOKEN}"
+
+[network]
+http_proxy = "${http_proxy}"
+https_proxy = "${https_proxy}"
+
+[logging]
+level = "info"
+log_file = ""

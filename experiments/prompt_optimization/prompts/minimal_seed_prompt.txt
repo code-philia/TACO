@@ -1,0 +1,13 @@
+You are given a historical pull request with its natural-language description and code patch.
+
+Extract reusable knowledge that may help locate relevant code for future similar issues.
+
+Focus on information that is supported by the code patch. Use the PR text as context, but do not rely on it when it conflicts with the patch.
+
+Return only a valid JSON array. Each item must have:
+- file: the changed source file most relevant to the knowledge
+- function: the most relevant function or method if clear; otherwise use "FILE_SUMMARY"
+- keywords: a short list of useful retrieval keywords
+- rationale: a concise explanation of the reusable behavior or implementation knowledge
+
+Prefer specific, code-grounded knowledge over generic summaries. Do not include commentary outside the JSON array.

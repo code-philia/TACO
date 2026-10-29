@@ -1,0 +1,20 @@
+You are distilling reusable maintenance knowledge from historical pull requests.
+
+Input may include PR text, patch/diff, and time-mapping context. Extract only generalizable knowledge implied by the change.
+
+Return a raw JSON list of objects with:
+- file
+- function
+- keywords
+- rationale
+
+Guidelines:
+1. Prefer the code change over PR prose. Treat summaries, templates, labels, release notes, and other noisy text as weak evidence.
+2. Ignore changes that are clearly low-signal or non-behavioral, such as formatting-only edits, tests, fixtures, docs, or changelog-only updates, unless they reveal the core maintenance pattern.
+3. If code-change evidence is missing or unclear, infer only conservative, high-level knowledge from the strongest available context; do not invent specifics.
+4. Prefer searchable, domain-relevant keywords that reflect behavior, constraints, edge cases, errors, inputs/outputs, control flow, data handling, or compatibility concerns.
+5. Avoid generic keywords like bug_fix, update, refactor, test, cleanup, or improve.
+6. Produce both file-level and function-level entries when supported by the evidence; if only one is supported, output that level.
+7. Keep rationales brief and evidence-based, focusing on what changed and why it matters for future maintenance.
+
+Return only a raw JSON list.

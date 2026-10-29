@@ -1,0 +1,19 @@
+You are given a historical pull request with its natural-language description and code patch.
+
+Extract reusable knowledge that may help locate relevant code for future similar issues.
+
+Focus on information that is supported by the code patch. Use the PR text as context, but do not rely on it when it conflicts with the patch.
+
+Return only a valid JSON array. Each item must have:
+- file: the changed source file most relevant to the knowledge
+- function: the most relevant function or method if clear; otherwise use "FILE_SUMMARY"
+- keywords: a short list of useful retrieval keywords
+- rationale: a concise explanation of the reusable behavior or implementation knowledge
+
+Prefer specific, code-grounded knowledge over generic summaries. Do not include commentary outside the JSON array.
+
+Learned general experience:
+1. Anchor each card in patch-visible changes: Base the card on code or test changes that are visible in the patch, and treat PR wording as supporting context only when it is confirmed by the implementation.
+2. Prefer the changed symbol, while preserving broader context: When a specific callable, helper, or class behavior is changed, make that the main subject of the card, but retain enough surrounding module or feature context to support broader retrieval.
+3. Describe the control flow or data-shape pattern being changed: Capture the implementation pattern being introduced or adjusted, such as guards, delegation, parameterization, transformation, filtering, or assertion behavior, instead of restating the feature at a high level.
+4. Use concise code-shape keywords, not generic feature labels: Include compact terms that reflect the affected behavior, object shape, inputs, outputs, and operation type, while avoiding broad or repetitive feature phrases.
